@@ -16,7 +16,7 @@ Template.createGroup.events({
 			if(err){
 				var errList = Groups.simpleSchema().namedContext().invalidKeys();
 				Session.set("errList", errList);
-				//console.log(errList);
+				console.log(errList);
 				//todo: handle err
 			}
 		});
@@ -28,13 +28,14 @@ Template.createGroup.events({
 		}
 		BelongGroups.insert(belong, function(err, result){
 			if(err){
+				console.log(err);
 				var errList = Groups.simpleSchema().namedContext().invalidKeys();
 				Session.set("errList", errList);
-				//console.log(errList);
+				console.log(errList);
 				//todo: handle err
 			}
 			else{
-				Router.go('dashboard');
+				Router.go('dashboard', {_id: group._id});
 			}
 		});
 		return false;
@@ -46,30 +47,30 @@ Template.createGroup.events({
 		var application = {
 			fromId: Meteor.userId(),
 			groupId: t.find('input[name=groupId]').value,
-		  toId: t.find('input[name=creatorId]').value,
-		  status: "pending",
-		  date: today
+		    toId: t.find('input[name=creatorId]').value,
+		    status: "pending",
+		    date: today
 		};
 
 		JoinApplications.insert(application, function(err, result){
 			if(err){
 				var errList = JoinApplications.simpleSchema().namedContext().invalidKeys();
-				$.pnotify({
-				    title: "Apply to join failed",
-				    text: "",
-				    type: "error",
-				    history: false
-				});
+				// $.pnotify({
+				//     title: "Apply to join failed",
+				//     text: "",
+				//     type: "error",
+				//     history: false
+				// });
 				console.log(errList);
 				//todo: handle err
 			}
 			else{
-				$.pnotify({
-				    title: "Application Sent",
-				    text: "You will join the group once your application is approved",
-				    type: "success",
-				    history: false
-				});
+				// $.pnotify({
+				//     title: "Application Sent",
+				//     text: "You will join the group once your application is approved",
+				//     type: "success",
+				//     history: false
+				// });
 				console.log('success');
 			}
 		});

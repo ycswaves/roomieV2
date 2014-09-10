@@ -11,7 +11,6 @@ Schema.BelongGroups = new SimpleSchema({
     userId: {
         type: String,
         label: "user id",
-        unique: true
     },
     dateJoined: {
         type: Date,

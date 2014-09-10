@@ -6,7 +6,6 @@
 meteor-platform
 insecure
 iron:router
-mizzao:bootstrap-3
 mrt:x-editable-bootstrap3
 aldeed:collection2
 natestrauser:select2
@@ -16,4 +15,3 @@ accounts-facebook
 accounts-google
 email
 houston:admin
-

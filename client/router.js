@@ -1,6 +1,7 @@
 Router.configure({
   notFoundTemplate: 'notFound',
-  loadingTemplate: 'loading'
+  loadingTemplate: 'loading',
+  layoutTemplate: 'layout'
 });
 
 var filters = {

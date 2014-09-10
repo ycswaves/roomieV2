@@ -8,12 +8,13 @@
 </body>
 
 <template name="layout">
+	{{#if currentUser}}
+	  {{> topNav}}
+	{{/if}}
 	<div class="container">
-		{{#if currentUser}}
-		  {{> topNav}}
-		{{/if}}
 		{{> yield}}
 	</div><!-- /container -->
+	{{> footer}}
 </template>	
 
 <template name="footer">

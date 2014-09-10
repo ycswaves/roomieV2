@@ -14,10 +14,10 @@
           <ul class="nav navbar-nav navbar-right" style="margin-right:10px">
 
             <li id="" class="dropdown">
-              <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+              <a role="button" class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="fa fa-group"></i> my groups <b class="caret"></b>
               </a>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+              <ul class="dropdown-menu" role="menu">
                 {{#each joinedGroups}}
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="{{pathFor 'dashboard'}}"> - {{groupName}}</a>
@@ -34,10 +34,10 @@
             </li>
 
             <li id="" class="dropdown">
-              <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+              <a role="button" class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="fa fa-envelope"></i> inbox {{#if systemNotice.count}} <span class="badge">{{systemNotice.count}}</span>{{/if}}<b class="caret"></b>
               </a>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+              <ul class="dropdown-menu" role="menu">
                 <!-- <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#">dummy</a>
                 </li> -->
@@ -70,10 +70,10 @@
             </li>
 
             <li id="" class="dropdown">
-              <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+              <a role="button" class="dropdown-toggle" data-toggle="dropdown" href="#">
                 <i class="fa fa-user"></i> {{getUsernameById currentUser._id}} <b class="caret"></b>
               </a>
-              <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+              <ul class="dropdown-menu" role="menu">
                 <li role="presentation">
                   <a role="menuitem" tabindex="-1" href="#">dummy</a>
                 </li>
