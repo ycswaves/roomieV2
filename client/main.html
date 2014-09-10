@@ -1,0 +1,23 @@
+<head> 
+  <title>Roomie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head> 
+
+<body>
+	
+</body>
+
+<template name="layout">
+	<div class="container">
+		{{#if currentUser}}
+		  {{> topNav}}
+		{{/if}}
+		{{> yield}}
+	</div><!-- /container -->
+</template>	
+
+<template name="footer">
+	<div class="" id="footer">
+    <p class="text-muted pull-right"> A YCS production</p>
+	</div>
+</template>

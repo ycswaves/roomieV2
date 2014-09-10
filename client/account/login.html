@@ -1,0 +1,77 @@
+<template name="loginForm">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Log in</h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              {{#if loggingIn}}
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                  <h4>Logging In ...</h4>
+                </div>
+              {{else}}
+                  {{#if currentUser}}
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                      <h4>Welcome, {{getUsernameById currentUser._id}}!</h4>
+                    </div>
+                    <div class="col-xs-12 col-sm-12col-md-12">
+                      {{#if currentUser.defaultGroup}}
+                      <a href="dashboard/{{currentUser.defaultGroup}}" class="btn btn-danger pull-right">Go to My Dashboard</a>
+                      {{else}}
+                      <a href="{{pathFor 'creategroup'}}" class="btn btn-danger pull-right">Join/Create a group</a>
+                      {{/if}}
+                    </div>
+                  {{else}}
+                    <div class="col-xs-12 col-sm-12 col-md-6 separator social-login-box" style="margin-bottom:15px;"> <br />
+                        <a id="facebookLogin" class="btn facebook btn-block" role="button">
+                          <i class="fa fa-facebook"></i>&nbsp;
+                          Log in using Facebook
+                        </a>
+
+                        <br />
+                        <a id="googleLogin" class="btn google btn-block" role="button">
+                          <i class="fa fa-google-plus"></i>&nbsp;
+                          Log in using Google+
+                        </a>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 login-box">
+                      <form role="form" id="login-form">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <input type="text" name="username" class="form-control" placeholder="Username" required autofocus />
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock" style="padding:1px"></i></span>
+                            <input type="password" name="password" class="form-control" placeholder="Password" required />
+                        </div>
+                        <div class="input-group">
+                          <button type="submit" class="btn btn-primary">Sign In</button>
+                        </div>
+                        <p>
+                          <!-- <a href="#">Lost your password?</a></p> -->
+                          Don't have an account?<br><a href="{{pathFor 'signup'}}" class="text-success">Sign up here</a>
+                        </p>
+                      </form>
+                    </div>
+                  {{/if}}
+              {{/if}}
+            </div> <!-- /row -->
+          </div> <!-- /panel body -->
+          <div class="panel-footer">
+            {{loginStatus}}
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-xs-12 col-sm-12 col-md-6">
+        <div class="jumbotron">
+          <h1>Hello, world!</h1>
+          <p>...</p>
+          <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</template>

@@ -1,0 +1,118 @@
+<template name="createGroup">
+  <div class="col-md-12">
+  	<div class="row">
+      <div class="col-xs-12 col-sm-8 col-md-5">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <i class="fa fa-plus" style="margin-right:5px"></i>
+              Create a group
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-12 login-box">
+                <form class="form-horizontal" role="form" id="createGroupForm">
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Name</label>
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control" name="groupName" placeholder="#12-34 Roomie Residence">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Description</label>
+                    <div class="col-sm-8">
+                      <textarea class="form-control" name="groupDesc" placeholder="No description"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-10">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                      <a href="/" class="btn btn-default">Cancel</a>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+          	{{#each formStatus}}
+          		<p>Error: {{message}}</p>
+          	{{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-8 col-md-7">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <i class="fa fa-group" style="margin-right:5px"></i>
+              Join a group
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-12 col-sm-12 col-md-6 login-box">
+                <form class="form-horizontal" role="form" id="searchGroupForm">
+                  <div class="input-group">
+  						      <input  type="text" class="form-control" name="groupName" placeholder="Group name">
+  						      <span class="input-group-btn">
+  						        <button class="btn btn-default" type="button">Go!</button>
+  						      </span>
+  						    </div><!-- /input-group -->
+                </form>
+                <hr>
+              </div>
+
+              {{#each groupList}}
+               <div class="col-md-10 ">
+                  <div class="row">
+                      <div class="col-xs-3 col-md-3" style="text-align:center">
+                          <i class="fa fa-home fa-4x"></i>
+                          <br>
+                          {{#if isMember currentUser._id members}}
+                          <button class="btn btn-success active">
+                              Joined
+                          </button>
+                          {{else}}
+                          <form id="joinGroupForm">
+                            <input type="hidden" name="groupId" value="{{_id}}">
+                            <input type="hidden" name="creatorId" value="{{creator}}">
+                            <button type="submit" class="btn btn-primary">Join</button>
+                          </form>
+                          {{/if}}
+                      </div>
+                      <div class="col-xs-9 col-md-9 section-box">
+                          <h4>
+                              <i class="fa fa-group"></i>&nbsp;
+                              {{groupName}}
+                          </h4>
+                          <p> 
+                              {{#if description}}
+                                {{description}}
+                              {{else}}
+                                No description
+                              {{/if}}
+                          </p>
+                          <hr style="margin:2px" />
+                          <p>
+                            <i class="fa fa-user"></i>&nbsp;
+                            {{getUsernameById creator}}
+                            <br>
+                            <i class="fa fa-calendar"></i>&nbsp;
+                            {{formatDate createdAt}}
+                          </p>
+                      </div>
+                  </div>
+                  <hr>
+              </div>
+              {{/each}}
+            </div>
+          </div>
+          <div class="panel-footer">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>	

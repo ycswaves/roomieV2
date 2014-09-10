@@ -1,0 +1,202 @@
+<template name="billPage">
+	<div class="container" style="min-height:768px">
+    <div class="row">
+      <div class="col-sm-12 col-md-3">
+      {{> leftSidebar}}
+	  	</div><!-- /span-3 -->
+      <div class="col-sm-12 col-md-9 div-dashboard">
+      	
+    		<h4 class="black-font">
+    			<i class="fa fa-dashboard"></i> My Dashboard
+    			<button id="addBillBtn" class="btn btn-info pull-right"><i class="fa fa-plus"></i> New bill</button>
+    		</h4>
+      	  
+        
+      	<hr>
+      	<div style="padding: 0 10px">
+          {{> billsList}}
+        </div>
+      </div>
+    </div>
+	</div>
+	{{> footer}}
+</template>
+
+<template name="leftSidebar">
+  <ul class="nav nav-pills nav-stacked">
+    <li class="nav-header"></li>
+    <li class="active">
+    	<a href="#">
+    		<i class="fa fa-dollar"></i>&nbsp;
+    		Bills
+    	</a>
+    </li>
+    <li>
+    	<a href="/tagged/bootstrap-3">
+    		<i class="fa fa-bullhorn"></i>&nbsp;
+    		Announcement
+    	</a>
+    </li>
+    <!-- <li>
+    	<a href="/tagged/bootstrap-3">
+    		<i class="fa fa-star-half-o"></i>&nbsp;
+    		Leaderboard
+    	</a>
+    </li>
+    <li>
+    	<a href="/tagged/bootstrap-3">
+    		<i class="fa fa-hand-o-up"></i>&nbsp;
+    		Vote
+    	</a>
+    </li> -->
+  </ul>
+  <hr class="style-dash">
+  <div class="black-font">
+    <i class="fa fa-group"></i>&nbsp;
+    {{groupInfo.groupName}}
+    <ul>
+      {{#each groupInfo.members}}  
+      <li>{{getUsernameById this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="billsList">
+	<div id="billContainer" >
+		<div id="billToggle" style="display:none" class="color-div col-md-10">
+			{{> newBill}}
+			<hr>
+		</div>
+
+		{{#each bills}}
+			{{> billItem}}
+		{{/each}}
+	</div>	
+</template>
+
+<template name="billItem">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default" data="{{_id}}">
+				<div class="panel-heading">
+					<a id="titleEdit" class="editable" data-type="text">{{title}}</a>	
+					&nbsp;( {{formatDate addedAt}} )
+					{{#if isOwner _id}}
+				  <button id="table-edit" class="btn btn-default btn-xs pull-right">edit</button>
+				  {{/if}}
+				</div>
+				<table class="table table-hover table-striped">
+			    <thead>
+			      <tr>
+			        <th>Items</th>
+			        <th class="text-center">Amount</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			    	{{#each details}}
+			      <tr>
+		          <td class="col-md-6">
+		          	<em>
+		          		<a class="editable itemNameEdit expandWidth" 
+		          		data-oldvalue="{{itemName}}" data-type="text">{{itemName}}</a>
+		          	</em>
+		          </td>
+		          <td class="col-md-6 text-center">
+		          	$ <a class="editable itemPriceEdit expandWidth" 
+		          		data-oldvalue="{{itemPrice}}" data-type="text">{{itemPrice}}</a>
+		          </td>
+			      </tr>
+			      {{/each}}
+
+			      <tr>
+	            <td class="text-right"><h4><strong>Total: </strong></h4></td>
+	            <td class="text-center text-success"><h4><strong>${{totalAmount details}}</strong></h4></td>
+			      </tr>
+			    </tbody>
+				</table>
+				<!-- <div class="panel-footer">
+					Payers: {{showPayers notify}}
+			  </div> -->
+			</div>
+		</div>
+		<div class="col-md-4" style="color:black">
+			{{#each notify}}
+		   <div>
+		   	  <i class="fa fa-user"></i> {{getUsernameById payerId}}
+		   	  {{#if hasPaid}}
+		   	  <span class="label pull-right">
+		   	  	<a class="editable payStatusEdit" data-type="select" data-source="[{value:'true', text: 'Not Paid'}, {value:'true', text: 'Paid'}]" data-payerid="{{payerId}}">Paid</a>
+		   	  </span>
+		   	  {{else}}
+		   	  <span class="label pull-right">
+		   	  	<a class="editable payStatusEdit" data-type="select" data-source="[{value:'false', text: 'Not Paid'}, {value:'true', text: 'Paid'}]" data-payerid="{{payerId}}">Not Paid</a>
+		   	  </span>
+		   	  {{/if}}
+		   </div>
+		  {{/each}}
+		  <p>Total / {{notify.length}} = {{totalAmount details notify.length}}</p>
+		  <!-- <div class="progress progress-striped active">
+			  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+			    <span class="sr-only">60% Complete (warning)</span>
+			  </div>
+			</div> -->
+		</div>
+	</div>
+	<hr class="style-gradient">
+</template>
+
+<template name="newBill">
+	<form class="form-horizontal black-font" id="newBillForm" role="form">
+	  <div id="inputOnlyDiv">
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Bill Title</label>
+		    <div class="col-sm-8">
+		      <input type="text" class="form-control input-sm" name="title" placeholder="Bill title">
+		    </div>
+		  </div>
+
+		  <!-- <div class="form-group">
+		    <label class="col-sm-2 control-label">Due Date</label>
+		    <div class="col-sm-6">
+		      <input type="text" class="form-control" name="dueDate" placeholder="optional">
+		    </div>
+		  </div> -->
+
+		  <div class="form-group">
+		  	<label class="col-sm-2 control-label">Payers</label>
+		  	<div class="col-sm-6">
+		  		{{#each groupInfo.members}}
+				  <label class="checkbox-inline">
+					  <input type="checkbox" name="members" value="{{this}}" checked> {{getUsernameById this}}
+					</label>
+					{{/each}}
+				</div>
+			</div>
+
+		  <div class="form-group">
+		    <label class="col-sm-2 control-label">Item</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control input-sm" name="itemName" placeholder="Item name">
+		    </div>
+
+		    <div class="input-group col-md-2" style="max-width:120px; margin-left:15px">
+				  <span class="input-group-addon input-sm">$</span>
+				  <input type="text" name="itemPrice" class="form-control input-sm">
+				</div>
+		  </div>
+		</div>  
+		<input type="hidden" name="itemCount" value="1">
+	  <div class="form-group">
+	    <div class="col-sm-offset-2 col-sm-10">
+	    	<div class="btn-group col-sm-8">
+				  <button id="addItemBtn" type="button" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> item</button>
+				  <button id="removeItemBtn" type="button" class="btn btn-default btn-sm"><i class="fa fa-minus"></i> item</button>
+				  <button type="submit" class="btn btn-danger btn-sm">Submit</button>
+				</div>
+	      
+	    </div>
+	  </div>
+	</form>
+</template>
+
