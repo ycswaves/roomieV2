@@ -5,10 +5,10 @@ Router.configure({
 });
 
 var filters = {
-  isLoggedIn: function() {
+  isLoggedIn: function(pause) {
     if (!(Meteor.loggingIn() || Meteor.user())) {
       Router.go('home');
-      pause(); 
+      pause();
     }
   }
 }
@@ -47,15 +47,15 @@ Router.map(function () {
       }
     },
     data: function () {
-      var groupId = (this.params._id == '')? 
+      var groupId = (this.params._id == '')?
             Meteor.user().defaultGroup : this.params._id;
       if (groupId == '') {
         this.redirect('creategroup');
       };
       Session.set('currentGroup', groupId);
-      templateData = { 
+      templateData = {
         bills: Bills.find({groupId: groupId},{sort: {addedAt: -1}}),
-        groupInfo: Groups.findOne({_id:groupId}) 
+        groupInfo: Groups.findOne({_id:groupId})
       };
       return templateData;
     }

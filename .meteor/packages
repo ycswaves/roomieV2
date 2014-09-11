@@ -6,16 +6,18 @@
 meteor-platform
 insecure
 iron:router
-aldeed:collection2
 natestrauser:select2
 pfafman:font-awesome-4
 accounts-password
-accounts-facebook
-accounts-google
 email
 houston:admin
 mrt:x-editable-bootstrap3
 crunya:ermini-notify
+aldeed:collection2
+accounts-facebook
+accounts-google
 meteorhacks:kadira
 meteorhacks:zones
+accounts-base
+service-configuration
 

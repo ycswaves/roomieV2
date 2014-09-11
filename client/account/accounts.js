@@ -53,14 +53,14 @@ function isValidName(val){
 }
 
 function getDefaultGroup(uid){
-  if (Meteor.user().defaultGroup == undefined) {
-    Meteor.call('defDefaultGroupAttr', uid, 
+  if (Meteor.user() == undefined || Meteor.user().defaultGroup == undefined) {
+    Meteor.call('defDefaultGroupAttr', uid,
                   function (err, msg){
                     if(err){
                       //handle error
                       console.log(err);
                     }
-                  });     
+                  });
     return false;
   } else if (Meteor.user().defaultGroup == ''){
     return false;
