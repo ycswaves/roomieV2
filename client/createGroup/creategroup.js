@@ -52,13 +52,14 @@ Template.createGroup.events({
 		return false;
 	},
 
-	'submit #joinGroupForm': function(e, t){
+	'submit .joinGroupForm': function(e, t){
 		e.preventDefault();
+		var thisForm = $(this)[0];
 		var today = new Date();
 		var application = {
 			fromId: Meteor.userId(),
-			groupId: t.find('input[name=groupId]').value,
-		    toId: t.find('input[name=creatorId]').value,
+			groupId: thisForm._id,
+		    toId: thisForm.creator,
 		    status: "pending",
 		    date: today
 		};
