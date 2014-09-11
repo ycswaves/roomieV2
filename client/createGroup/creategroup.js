@@ -7,10 +7,10 @@ Template.createGroup.events({
 		memberList.push(uid);
 		var group = {
 			groupName: t.find('input[name=groupName]').value,
-		  creator: uid,
-		  members: memberList,
-		  createdAt: today,
-		  description: ""
+		    creator: uid,
+		    members: memberList,
+		    createdAt: today,
+		    description: t.find('textarea[name=groupDesc]').value || ''
 		}
 		group._id = Groups.insert(group, function(err, result){
 			if(err){
@@ -38,6 +38,17 @@ Template.createGroup.events({
 				Router.go('dashboard', {_id: group._id});
 			}
 		});
+
+
+		// set default group to this new created group
+		Meteor.call('setDefaultGroup', uid, group._id,
+                  function (err, msg){
+                    if(err){
+                      //handle error
+                      console.log(err);
+                    }
+                  }); 
+
 		return false;
 	},
 
@@ -55,6 +66,7 @@ Template.createGroup.events({
 		JoinApplications.insert(application, function(err, result){
 			if(err){
 				var errList = JoinApplications.simpleSchema().namedContext().invalidKeys();
+				ErminiNotify.add('Apply to join failed');
 				// $.pnotify({
 				//     title: "Apply to join failed",
 				//     text: "",
@@ -65,6 +77,7 @@ Template.createGroup.events({
 				//todo: handle err
 			}
 			else{
+				ErminiNotify.add('Application Sent', 'You will join the group once your application is approved');
 				// $.pnotify({
 				//     title: "Application Sent",
 				//     text: "You will join the group once your application is approved",

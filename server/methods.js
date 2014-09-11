@@ -15,8 +15,12 @@ Meteor.methods({
     });
   },
 
-  updateDefaultGroup: function (uid) {
+  defDefaultGroupAttr: function (uid) {
     Meteor.users.update({_id:uid},{$set:{defaultGroup:''}});
+  },
+
+  setDefaultGroup: function (uid, gid) {
+    Meteor.users.update({_id:uid},{$set:{defaultGroup: gid}});
   }
 
 });

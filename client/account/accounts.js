@@ -54,7 +54,7 @@ function isValidName(val){
 
 function getDefaultGroup(uid){
   if (Meteor.user().defaultGroup == undefined) {
-    Meteor.call('updateDefaultGroup', uid, 
+    Meteor.call('defDefaultGroupAttr', uid, 
                   function (err, msg){
                     if(err){
                       //handle error
@@ -145,12 +145,7 @@ Template.loginForm.events({
       if (err && err.error === 403) {
           Session.set('displayMessage', 'Login Error: username or password is not correct.');
       } else {
-        console.log(hasGroup(Meteor.userId()));
-        if (hasGroup(Meteor.userId())){
-            Router.go('/dashboard');
-          } else {
-            Router.go('/creategroup');
-          }
+        loginSuccess();
       }
     });
   }
@@ -178,7 +173,7 @@ Template.signupForm.events({
     {
       Accounts.createUser({username: username, email: email, password: password}, function(err){
         if (err && err.error === 403) {
-          Session.set('displayMessage', 'Account Creation Error &' + err.reason);
+          Session.set('displayMessage', 'Account Creation Error: ' + err.reason);
         } else {
           Router.go('creategroup');
         }

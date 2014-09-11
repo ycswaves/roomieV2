@@ -18,9 +18,9 @@ Template.topNav.events({
 	'submit #joinApprove': function(e, t){
 		e.preventDefault();
 		var today = new Date();
-    var gid = t.find('input[name=groupId]').value
-       ,uid = t.find('input[name=userId]').value
-     ,msgid = t.find('input[name=msgId]').value;
+	    var gid = t.find('input[name=groupId]').value
+	       ,uid = t.find('input[name=userId]').value
+	     ,msgid = t.find('input[name=msgId]').value;
 
 		Groups.update( {_id: gid},    //insert user into the group
 			{ $addToSet: {members: uid} }
@@ -43,6 +43,15 @@ Template.topNav.events({
 				//Router.go('dashboard');
 			}
 		}); 
+
+		// set default group to this new joined group
+		Meteor.call('setDefaultGroup', uid, gid, 
+                  function (err, msg){
+                    if(err){
+                      //handle error
+                      console.log(err);
+                    }
+                  }); 
 
 		JoinApplications.remove({_id: msgid}); //delete the join apply
 	},
