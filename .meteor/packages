@@ -6,7 +6,6 @@
 meteor-platform
 insecure
 iron:router
-mrt:x-editable-bootstrap3
 aldeed:collection2
 natestrauser:select2
 pfafman:font-awesome-4
@@ -15,3 +14,6 @@ accounts-facebook
 accounts-google
 email
 houston:admin
+mrt:x-editable-bootstrap3
+crunya:ermini-notify
+

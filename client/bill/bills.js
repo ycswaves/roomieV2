@@ -45,15 +45,15 @@ Template.billItem.rendered = function (){
     },
     success: function(response, newValue) {
       Bills.update( { _id: billId },
-      							{ $set: {title: newValue} }, 
-      							function(err, result){
-      								if(err){
-												var errList = Bills.simpleSchema().namedContext().invalidKeys();
-												console.log(errList);
-												//todo: handle err
-											}
-      							}
-      						);
+					{ $set: {title: newValue} }, 
+					function(err, result){
+						if(err){
+								var errList = Bills.simpleSchema().namedContext().invalidKeys();
+								console.log(errList);
+								//todo: handle err
+							}
+					}
+				);
       editSuccessNotice();
 		}
 	});
@@ -66,8 +66,8 @@ Template.billItem.rendered = function (){
       }
     },
     success: function(response, newValue) {
-    	var oldVal = $(this).attr('data-oldvalue');
-    	updateBillItem(billId, oldVal, newValue, 'name');       
+      var oldVal = $(this).attr('data-oldvalue');
+      updateBillItem(billId, oldVal, newValue, 'name');       
     }
   });
 
@@ -80,7 +80,7 @@ Template.billItem.rendered = function (){
     },
     success: function(response, newValue) {
       var oldVal = $(this).attr('data-oldvalue');
-    	updateBillItem(billId, oldVal, newValue, 'price');      
+      updateBillItem(billId, oldVal, newValue, 'price');      
     }
   });
 
@@ -97,15 +97,15 @@ Template.billItem.rendered = function (){
 	    console.log(newValue);
 	    console.log(payerId+" "+status);
 	    Meteor.call('updateBillPayStatus',billId, payerId, status, 
-								function (err, msg){
-									if(err){
-										//handle error
-										console.log(err+msg);
-									}
-									else{
-										editSuccessNotice();
-									}
-								});            
+						function (err, msg){
+							if(err){
+								//handle error
+								console.log(err+msg);
+							}
+							else{
+								editSuccessNotice();
+							}
+						});            
     }
   });
 
@@ -165,9 +165,9 @@ Template.newBill.events({
 				itemName: itemNames[i].value,
 				itemPrice: itemPrices[i].value
 			};
-      billDetails.push(item);
-    }
-    var payers = t.findAll('input[name=members]:checked');
+	      billDetails.push(item);
+	    }
+   		var payers = t.findAll('input[name=members]:checked');
 		var payerList = [];
 		var payerIDList = []; // for sending email later
 		for(var i=0; i<payers.length; i++) {
@@ -176,82 +176,77 @@ Template.newBill.events({
 				payerId: payers[i].value,
 				hasPaid: false
 			};
-      payerList.push(payer);
-    }
+	      payerList.push(payer);
+	    }
 
-    bill = {
-    	groupId: Session.get('currentGroup'),
-    	author: uid,
-    	title: billTitle,
-    	details: billDetails,
-    	dueDate: billDue,
-    	notify: payerList,
-    	addedAt: today
-    }
+	    bill = {
+	    	groupId: Session.get('currentGroup'),
+	    	author: uid,
+	    	title: billTitle,
+	    	details: billDetails,
+	    	dueDate: billDue,
+	    	notify: payerList,
+	    	addedAt: today
+	    }
 
-    Bills.insert(bill, function(err, result){
-			if(err){
-				var errList = Bills.simpleSchema().namedContext().invalidKeys();
-				Session.set("errList", errList);
-				console.log(errList);
-				//todo: handle err
-			}
-			else{
-				//console.log('bill insert success');
-				$('#newBillForm')[0].reset();
-				$('#billToggle').hide();
-				var mailList = getUserEmail(payerIDList);
-				var content = 'Here is the summary of the bill: <br>'
-											+'<h2>'+billTitle+'</h2>'
-											+'<table style="font-size:1.75em">';
-				for (var i = 0; i < billDetails.length; i++){
-					content += '<tr>'
-											+'<td>'+billDetails[i].itemName+':&nbsp</td>'
-											+'<td>$'+billDetails[i].itemPrice+'</td>'
-										+'<tr>';
+	    Bills.insert(bill, function(err, result){
+				if(err){
+					var errList = Bills.simpleSchema().namedContext().invalidKeys();
+					Session.set("errList", errList);
+					console.log(errList);
+					//todo: handle err
 				}
-				content += '</table><br>'+today+'<br>';
-				content += 'For more details, please click <a href="http://roomie.meteor.com">here</a>' 
-				Meteor.call('sendEmail',
-										 mailList, //to
-										'noreply@roomie.meteor.com',//from
-										'You have a new bill',//subject
-										 content, //content'
-									function (err, msg){
-                    if(err){
-                      //handle error
-                      console.log(err);
-                    }else{
-                    	console.log('email sent');
-                    }
-                  }
-				);
-			}
+				else{
+					//console.log('bill insert success');
+					$('#newBillForm')[0].reset();
+					$('#billToggle').hide();
+					var mailList = getUserEmail(payerIDList);
+					var content = 'Here is the summary of the bill: <br>'
+								+'<h2>'+billTitle+'</h2>'
+								+'<table style="font-size:1.75em">';
+					for (var i = 0; i < billDetails.length; i++){
+						content += '<tr>'
+									+'<td>'+billDetails[i].itemName+':&nbsp</td>'
+									+'<td>$'+billDetails[i].itemPrice+'</td>'
+								+'<tr>';
+					}
+					content += '</table><br>'+today+'<br>';
+					content += 'For more details, please click <a href="http://roomie.meteor.com">here</a>' 
+					Meteor.call('sendEmail',
+						 mailList, //to
+						'noreply@roomie.meteor.com',//from
+						'You have a new bill',//subject
+						 content, //content'
+					function (err, msg){
+	                    if(err){
+	                      //handle error
+	                      console.log(err);
+	                    }else{
+	                      console.log('email sent');
+	                    }
+	                  }
+					);
+				}
 		});
 	}
 
 });
 
 function editSuccessNotice(){
-	$.pnotify({
-    //title: 'Changes Saved!',
-    text: 'Changes Saved!',
-    type: 'success',
-    history: false
-  });  
+	ErminiNotify.add('Changes Saved!','success');  
 }
 
 function updateBillItem(billId, oldVal, newValue, type){
 	Meteor.call('updateBillItem',billId, oldVal, newValue, type, 
-    							function (err, msg){
-    								if(err){
-    									//handle error
-    									console.log(err);
-    								}
-    								else{
-    									editSuccessNotice();
-    								}
-    							});     
+		function (err, msg){
+			if(err){
+				//handle error
+				console.log(err);
+			}
+			else{
+				editSuccessNotice();
+			}
+		});     
 }
 
 function getUserEmail (uidArr) {

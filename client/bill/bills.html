@@ -19,7 +19,6 @@
       </div>
     </div>
 	</div>
-	{{> footer}}
 </template>
 
 <template name="leftSidebar">
@@ -80,7 +79,7 @@
 		<div class="col-md-6">
 			<div class="panel panel-default" data="{{_id}}">
 				<div class="panel-heading">
-					<a id="titleEdit" class="editable" data-type="text">{{title}}</a>	
+					<a id="titleEdit" class="editable" data-type="text" data-display="false">{{title}}</a>	
 					&nbsp;( {{formatDate addedAt}} )
 					{{#if isOwner _id}}
 				  <button id="table-edit" class="btn btn-default btn-xs pull-right">edit</button>
@@ -98,12 +97,12 @@
 			      <tr>
 		          <td class="col-md-6">
 		          	<em>
-		          		<a class="editable itemNameEdit expandWidth" 
+		          		<a class="editable itemNameEdit expandWidth" data-display="false"
 		          		data-oldvalue="{{itemName}}" data-type="text">{{itemName}}</a>
 		          	</em>
 		          </td>
 		          <td class="col-md-6 text-center">
-		          	$ <a class="editable itemPriceEdit expandWidth" 
+		          	$ <a class="editable itemPriceEdit expandWidth" data-display="false"
 		          		data-oldvalue="{{itemPrice}}" data-type="text">{{itemPrice}}</a>
 		          </td>
 			      </tr>
@@ -124,15 +123,10 @@
 			{{#each notify}}
 		   <div>
 		   	  <i class="fa fa-user"></i> {{getUsernameById payerId}}
-		   	  {{#if hasPaid}}
+		   	  
 		   	  <span class="label pull-right">
-		   	  	<a class="editable payStatusEdit" data-type="select" data-source="[{value:'true', text: 'Not Paid'}, {value:'true', text: 'Paid'}]" data-payerid="{{payerId}}">Paid</a>
+		   	  	<a class="editable payStatusEdit" data-display="false" data-type="select" data-source="[{value:'false', text: 'Not Paid'}, {value:'true', text: 'Paid'}]" data-payerid="{{payerId}}">{{#if hasPaid}}Paid{{else}}Not Paid{{/if}}</a>
 		   	  </span>
-		   	  {{else}}
-		   	  <span class="label pull-right">
-		   	  	<a class="editable payStatusEdit" data-type="select" data-source="[{value:'false', text: 'Not Paid'}, {value:'true', text: 'Paid'}]" data-payerid="{{payerId}}">Not Paid</a>
-		   	  </span>
-		   	  {{/if}}
 		   </div>
 		  {{/each}}
 		  <p>Total / {{notify.length}} = {{totalAmount details notify.length}}</p>
